@@ -1,16 +1,9 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/aureuneun/bitcoin/blockchain"
+	"github.com/aureuneun/bitcoin/explorer"
 )
 
 func main() {
-	chain := blockchain.GetBlockchain()
-	chain.AddBlock("Second BLock")
-	chain.AddBlock("Third Block")
-	for _, block := range chain.AllBlocks() {
-		fmt.Println(block)
-	}
+	explorer.Start()
 }
