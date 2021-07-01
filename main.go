@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/aureuneun/bitcoin/rest"
+	"github.com/aureuneun/bitcoin/cli"
 )
 
 func main() {
-	rest.Start(4000)
+	cli.Start()
 }
