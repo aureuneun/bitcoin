@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/aureuneun/bitcoin/explorer"
+	"github.com/aureuneun/bitcoin/rest"
 )
 
 func main() {
-	explorer.Start()
+	rest.Start(4000)
 }

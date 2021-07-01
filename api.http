@@ -1,0 +1,17 @@
+@port = 4000
+###
+
+GET http://localhost:{{port}} HTTP/1.1
+
+###
+GET http://localhost:{{port}}/blocks HTTP/1.1
+
+###
+POST http://localhost:{{port}}/blocks HTTP/1.1
+
+{
+    "data": "Fuck"
+}
+
+###
+GET http://localhost:{{port}}/blocks/1 HTTP/1.1
