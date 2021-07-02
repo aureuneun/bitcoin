@@ -4,6 +4,7 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"runtime"
 
 	"github.com/aureuneun/bitcoin/explorer"
 	"github.com/aureuneun/bitcoin/rest"
@@ -15,7 +16,7 @@ func usage() {
 	fmt.Printf("-mode		Choose 'html', 'rest' or 'both'\n")
 	fmt.Printf("-port		Set port of the server\n")
 
-	os.Exit(0)
+	runtime.Goexit()
 }
 
 func Start() {
