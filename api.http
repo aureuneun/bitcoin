@@ -4,6 +4,9 @@
 GET http://localhost:{{port}} HTTP/1.1
 
 ###
+GET http://localhost:{{port}}/status HTTP/1.1
+
+###
 GET http://localhost:{{port}}/blocks HTTP/1.1
 
 ###
