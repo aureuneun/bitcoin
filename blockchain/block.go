@@ -10,33 +10,19 @@ import (
 )
 
 type Block struct {
-	Data       string `json:"data"`
-	Hash       string `json:"hash"`
-	PrevHash   string `json:"prevHash,omitempty"`
-	Height     int    `json:"height"`
-	Difficulty int    `json:"difficulty"`
-	Nonce      int    `json:"nonce"`
-	Timestamp  int    `json:"timestamp"`
-}
-
-func (b *Block) restore(data []byte) {
-	utils.FromBytes(b, data)
-}
-
-func (b *Block) persist() {
-	db.SaveBlock(b.Hash, utils.ToBytes(b))
+	Hash         string `json:"hash"`
+	PrevHash     string `json:"prevHash,omitempty"`
+	Height       int    `json:"height"`
+	Difficulty   int    `json:"difficulty"`
+	Nonce        int    `json:"nonce"`
+	Timestamp    int    `json:"timestamp"`
+	Transactions []*Tx  `json:"transactions"`
 }
 
 var ErrNotFound = errors.New("Block not found")
 
-func FindBlock(hash string) (*Block, error) {
-	blockBytes := db.Block(hash)
-	if blockBytes == nil {
-		return nil, ErrNotFound
-	}
-	block := &Block{}
-	block.restore(blockBytes)
-	return block, nil
+func (b *Block) restore(data []byte) {
+	utils.FromBytes(b, data)
 }
 
 func (b *Block) mine() {
@@ -52,16 +38,30 @@ func (b *Block) mine() {
 	}
 }
 
-func createBlock(data string, prevHash string, height int) *Block {
+func persistBlock(b *Block) {
+	db.SaveBlock(b.Hash, utils.ToBytes(b))
+}
+
+func FindBlock(hash string) (*Block, error) {
+	blockBytes := db.Block(hash)
+	if blockBytes == nil {
+		return nil, ErrNotFound
+	}
+	block := &Block{}
+	block.restore(blockBytes)
+	return block, nil
+}
+
+func createBlock(prevHash string, height int, difficulty int) *Block {
 	block := &Block{
-		Data:       data,
 		Hash:       "",
 		PrevHash:   prevHash,
 		Height:     height,
-		Difficulty: Blockchain().difficulty(),
+		Difficulty: difficulty,
 		Nonce:      0,
 	}
 	block.mine()
-	block.persist()
+	block.Transactions = Mempool.TxToConfirm()
+	persistBlock(block)
 	return block
 }

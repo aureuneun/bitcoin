@@ -12,9 +12,19 @@ GET http://localhost:{{port}}/blocks HTTP/1.1
 ###
 POST http://localhost:{{port}}/blocks HTTP/1.1
 
-{
-    "data": "Second"
-}
-
 ###
 GET http://localhost:{{port}}/blocks/6596a735b84b72bc1c89bf73f9beabd1745cbe191122764f3475154ba0a854c1 HTTP/1.1
+
+###
+GET http://localhost:{{port}}/balance/kec HTTP/1.1
+
+###
+GET http://localhost:{{port}}/mempool HTTP/1.1
+
+###
+POST http://localhost:{{port}}/transactions HTTP/1.1
+
+{
+    "to": "phn",
+    "amount": 100
+}
