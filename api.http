@@ -13,10 +13,10 @@ GET http://localhost:{{port}}/blocks HTTP/1.1
 POST http://localhost:{{port}}/blocks HTTP/1.1
 
 ###
-GET http://localhost:{{port}}/blocks/6596a735b84b72bc1c89bf73f9beabd1745cbe191122764f3475154ba0a854c1 HTTP/1.1
+GET http://localhost:{{port}}/blocks/00a947b946b008336a88fabd5e6d4d2fbab0ee6b253f8e1edd3b9c02f35927fc HTTP/1.1
 
 ###
-GET http://localhost:{{port}}/balance/kec HTTP/1.1
+GET http://localhost:{{port}}/balance/800f6f6a0a017a7113341e35efa47693ae86ab887b4cb03b7fac1ca38cdb4b216878987ca5bc9fbfc2f9281e386af9e230bd023909b1c86a615557c95c5b800e HTTP/1.1
 
 ###
 GET http://localhost:{{port}}/mempool HTTP/1.1
@@ -26,5 +26,9 @@ POST http://localhost:{{port}}/transactions HTTP/1.1
 
 {
     "to": "phn",
-    "amount": 100
+    "amount": 30
 }
+
+###
+
+GET http://localhost:{{port}}/wallets HTTP/1.1
