@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/aureuneun/bitcoin/blockchain"
+	"github.com/aureuneun/bitcoin/p2p"
 	"github.com/aureuneun/bitcoin/utils"
 	"github.com/aureuneun/bitcoin/wallet"
 	"github.com/gorilla/mux"
@@ -78,6 +79,11 @@ func documentation(rw http.ResponseWriter, r *http.Request) {
 			URL:         url("/balance/{address}"),
 			Method:      "GET",
 			Description: "Get txOuts for an address",
+		},
+		{
+			URL:         url("/ws"),
+			Method:      "GET",
+			Description: "Upgrade to WebSockets",
 		},
 	}
 	// b, err := json.Marshal(data)
@@ -153,10 +159,17 @@ func jsonMiddleware(next http.Handler) http.Handler {
 	})
 }
 
+func loggerMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+		fmt.Println(r.RequestURI)
+		next.ServeHTTP(rw, r)
+	})
+}
+
 func Start(aPort int) {
 	port = fmt.Sprintf(":%d", aPort)
 	router := mux.NewRouter()
-	router.Use(jsonMiddleware)
+	router.Use(jsonMiddleware, loggerMiddleware)
 	router.HandleFunc("/", documentation).Methods("GET")
 	router.HandleFunc("/status", status).Methods("GET")
 	router.HandleFunc("/blocks", blocks).Methods("GET", "POST")
@@ -164,6 +177,7 @@ func Start(aPort int) {
 	router.HandleFunc("/balance/{address}", balance).Methods("GET")
 	router.HandleFunc("/mempool", mempool).Methods("GET")
 	router.HandleFunc("/wallets", wallets).Methods("GET")
+	router.HandleFunc("/ws", p2p.Upgrade).Methods("GET")
 	router.HandleFunc("/transactions", transactions).Methods("POST")
 	fmt.Printf("Listening on http://localhost%s\n", port)
 	log.Fatal(http.ListenAndServe(port, router))
