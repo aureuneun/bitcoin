@@ -32,3 +32,16 @@ POST http://localhost:{{port}}/transactions HTTP/1.1
 ###
 
 GET http://localhost:{{port}}/wallets HTTP/1.1
+
+###
+
+POST http://localhost:{{port}}/peers HTTP/1.1
+
+{
+    "address": "127.0.0.1",
+    "port": "3000"
+}
+
+###
+
+GET http://localhost:{{port}}/peers HTTP/1.1
